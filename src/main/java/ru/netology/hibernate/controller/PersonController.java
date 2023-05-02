@@ -13,17 +13,14 @@ import java.util.Optional;
 @RequestMapping("/persons")
 public class PersonController {
     private PersonService personService;
+
     public PersonController(PersonService personService) {
         this.personService = personService;
     }
 
     @GetMapping("/by-city")
     public List<Person> getPersonsByCity(String city) {
-        List<Person> resultList = personService.getPersonsByCity(city);
-        System.out.println("В городе " + city + " живут клиенты:");
-        resultList.forEach(System.out::println);
-
-        return resultList;
+        return personService.getPersonsByCity(city);
     }
 
     @GetMapping("/by-age-less-than")
