@@ -7,16 +7,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/persons")
 public class PersonController {
     private PersonService personService;
     public PersonController(PersonService personService) {
         this.personService = personService;
     }
 
-    @GetMapping("/persons/by-city")
+    @GetMapping("/by-city")
     public List<Person> getPersonsByCity(String city) {
         List<Person> resultList = personService.getPersonsByCity(city);
         System.out.println("В городе " + city + " живут клиенты:");
@@ -25,4 +26,13 @@ public class PersonController {
         return resultList;
     }
 
+    @GetMapping("/by-age-less-than")
+    public List<Person> getPersonsByAgeLessThan(int age) {
+        return personService.getPersonsByAgeLessThan(age);
+    }
+
+    @GetMapping("/by-name-and-surname")
+    public Optional<Person> getPersonByNameAndSurname(String name, String surname) {
+        return personService.getPersonByNameAndSurname(name, surname);
+    }
 }

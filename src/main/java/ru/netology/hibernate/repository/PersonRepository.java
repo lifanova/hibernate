@@ -1,22 +1,20 @@
 package ru.netology.hibernate.repository;
 
-import lombok.Data;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import ru.netology.hibernate.model.Person;
+import ru.netology.hibernate.model.PersonId;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
-@Data
-public class PersonRepository {
-    @PersistenceContext
-    private final EntityManager entityManager;
-    public List<Person> getPersonsByCity(String city) {
-        TypedQuery<Person> query = entityManager.createQuery("select p from Person p where p.cityOfLiving=:city", Person.class);
+public interface PersonRepository extends JpaRepository<Person, PersonId> {
+    List<Person> findAllByCityOfLivingEquals(String city);
 
-        return query.setParameter("city", city).getResultList();
-    }
+    List<Person> findAllByAgeIsLessThan(int age, Sort sort);
+
+    Optional<Person> findByNameEqualsAndSurnameEquals(String name, String surname);
+
 }
